@@ -41,12 +41,12 @@ export default function Header() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2" aria-label="MovieFlix Home">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700">
-              <FiFilm className="h-5 w-5 text-white" aria-hidden="true" />
+          <Link to="/" className="flex items-center gap-2" aria-label="Ujang Nonton Home">
+            <div className="relative w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center shadow-lg shadow-primary-500/50">
+              <FiPlay className="w-6 h-6 text-white" />
             </div>
-            <span className="font-display font-bold text-xl text-white hidden sm:block">
-              MovieFlix
+            <span className="text-xl sm:text-2xl font-display font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Ujang Nonton
             </span>
           </Link>
 
