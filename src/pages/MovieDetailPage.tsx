@@ -208,16 +208,26 @@ export default function MovieDetailPage() {
 
               {/* Video Player */}
               <section aria-labelledby="player-title">
-                <h2 id="player-title" className="font-display text-xl font-bold text-white mb-4">Video Player</h2>
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 id="player-title" className="font-display text-xl font-bold text-white">Video Player</h2>
+                  {activeVideo && ['VidSrc','2Embed','VidLink'].includes(activeVideo.server) && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-green-500/20 text-green-400 border border-green-500/30">FILM FULL</span>
+                  )}
+                  {activeVideo && activeVideo.server === 'YouTube' && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">TRAILER</span>
+                  )}
+                </div>
                 <div className="video-container rounded-2xl overflow-hidden">
                   {activeVideo ? (
                     <iframe
+                      key={activeVideo.url}
                       src={activeVideo.url}
                       title={`${movie.title} - ${activeVideo.server}`}
                       className="w-full h-full"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-dark-900">
@@ -229,27 +239,41 @@ export default function MovieDetailPage() {
                   )}
                 </div>
 
-                {/* Video Sources */}
-                {movie.videos.length > 1 && (
-                  <div className="mt-4">
-                    <p className="text-sm text-dark-400 mb-2">Pilih Server:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {movie.videos.map((video, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setActiveVideo(video)}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                            activeVideo === video
-                              ? 'bg-primary-600 text-white'
-                              : 'bg-dark-800 text-dark-300 hover:bg-dark-700 hover:text-white'
-                          }`}
-                        >
-                          {video.server} {video.quality}
-                        </button>
-                      ))}
+                {/* Video Sources — grouped: Film & Trailer */}
+                {movie.videos.length > 1 && (() => {
+                  const filmServers = movie.videos.filter(v => ['VidSrc','2Embed','VidLink'].includes(v.server));
+                  const trailerServers = movie.videos.filter(v => !['VidSrc','2Embed','VidLink'].includes(v.server));
+                  return (
+                    <div className="mt-4 space-y-3">
+                      {filmServers.length > 0 && (
+                        <div>
+                          <p className="text-sm font-semibold text-green-400 mb-2">🎬 Film Full — pilih server:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {filmServers.map((video, idx) => (
+                              <button key={'film-'+idx} onClick={() => setActiveVideo(video)}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${activeVideo === video ? 'bg-green-600 text-white' : 'bg-dark-800 text-dark-300 hover:bg-dark-700 hover:text-white'}`}>
+                                {video.server} {video.quality}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {trailerServers.length > 0 && (
+                        <div>
+                          <p className="text-sm text-dark-400 mb-2">Trailer / Teaser:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {trailerServers.map((video, idx) => (
+                              <button key={'trl-'+idx} onClick={() => setActiveVideo(video)}
+                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${activeVideo === video ? 'bg-primary-600 text-white' : 'bg-dark-800 text-dark-300 hover:bg-dark-700 hover:text-white'}`}>
+                                {video.server} {video.quality}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
               </section>
 
               {/* Cast */}

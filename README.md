@@ -25,7 +25,7 @@ Aplikasi streaming film dan series mirip LK21, dibangun dengan React + Vite + Ta
 - 🎬 **Home** — Hero carousel, Trending mingguan, Popular Film & Series, Top Rated
 - 🎞️ **Film & Series** — Grid responsif, filter genre, **sort tahun rilis** (terbaru/terlama), pagination
 - 🔍 **Search** — Cari film/series/aktor, filter genre, hasil real-time
-- 📺 **Detail Film/Series** — Poster, info (tahun, rating, durasi), **video player (YouTube trailer/teaser/featurette)**, cast, film serupa
+- 📺 **Detail Film/Series** — Poster, info (tahun, rating, durasi), **video player** — grup Film Full (embed) & Trailer YouTube, cast, film serupa
 - 🎭 **Genre Browse** — Browse per genre (Film/Series)
 - 📱 **Fully Responsive** — Mobile, tablet, desktop
 - 🌙 **Dark Theme Professional** — Slate + Primary Red, custom scrollbar, skeleton loading

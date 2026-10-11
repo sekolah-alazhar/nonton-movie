@@ -305,11 +305,18 @@ export const movieApi = {
       ]);
 
       const movie = movieRes.data;
-      const videoSources = sortYouTubeVideos(videosRes.data.results).map((v: any) => ({
+      const trailerSources = sortYouTubeVideos(videosRes.data.results).map((v: any) => ({
         server: v.type || 'YouTube',
         url: `https://www.youtube.com/embed/${v.key}`,
         quality: 'HD',
       }));
+      // Full movie duluan (VidSrc/2Embed/VidLink), baru trailer — jadi player default = film full
+      const embedSources: VideoSource[] = [
+        { server: 'VidSrc', url: `https://vidsrc.to/embed/movie/${id}`, quality: 'HD' },
+        { server: '2Embed', url: `https://www.2embed.cc/embed/${id}`, quality: 'HD' },
+        { server: 'VidLink', url: `https://vidlink.pro/movie/${id}`, quality: 'HD' },
+      ];
+      const videoSources = [...embedSources, ...trailerSources];
 
       return {
         ...transformMovie(movie),
@@ -348,11 +355,17 @@ export const movieApi = {
       ]);
 
       const series = seriesRes.data;
-      const videoSources = sortYouTubeVideos(videosRes.data.results).map((v: any) => ({
+      const trailerSources = sortYouTubeVideos(videosRes.data.results).map((v: any) => ({
         server: v.type || 'YouTube',
         url: `https://www.youtube.com/embed/${v.key}`,
         quality: 'HD',
       }));
+      const embedSources: VideoSource[] = [
+        { server: 'VidSrc', url: `https://vidsrc.to/embed/tv/${id}/1/1`, quality: 'HD' },
+        { server: '2Embed', url: `https://www.2embed.cc/embedtv/${id}&s=1&e=1`, quality: 'HD' },
+        { server: 'VidLink', url: `https://vidlink.pro/tv/${id}/1/1`, quality: 'HD' },
+      ];
+      const videoSources = [...embedSources, ...trailerSources];
 
       return {
         ...transformMovie(series),
@@ -377,10 +390,24 @@ export const movieApi = {
     }
   },
 
-  // Get streaming links (using a free streaming API or embed)
+  // Full-movie embed URLs (no API key — langsung iframe TMDB id)
+  getMovieEmbeds(id: string): VideoSource[] {
+    return [
+      { server: 'VidSrc', url: `https://vidsrc.to/embed/movie/${id}`, quality: 'HD' },
+      { server: '2Embed', url: `https://www.2embed.cc/embed/${id}`, quality: 'HD' },
+      { server: 'VidLink', url: `https://vidlink.pro/movie/${id}`, quality: 'HD' },
+    ];
+  },
+  getTvEmbeds(id: string, season = 1, episode = 1): VideoSource[] {
+    return [
+      { server: 'VidSrc', url: `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`, quality: 'HD' },
+      { server: '2Embed', url: `https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`, quality: 'HD' },
+      { server: 'VidLink', url: `https://vidlink.pro/tv/${id}/${season}/${episode}`, quality: 'HD' },
+    ];
+  },
+
+  // Get streaming links (YouTube trailers — dipakai untuk tab Trailer)
   async getStreamingLinks(id: string, type: 'movie' | 'tv'): Promise<VideoSource[]> {
-    // This would typically integrate with a streaming provider
-    // For now, return YouTube trailers as placeholder
     try {
       const response = await api.get(`/${type}/${id}/videos`, { params: { language: 'en-US' } });
       return sortYouTubeVideos(response.data.results)

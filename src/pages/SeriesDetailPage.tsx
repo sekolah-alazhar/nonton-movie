@@ -15,6 +15,12 @@ export default function SeriesDetailPage() {
   const [activeVideo, setActiveVideo] = useState<VideoSource | null>(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [selectedSeason, setSelectedSeason] = useState<number>(1);
+  const [selectedEpisode, setSelectedEpisode] = useState<number>(1);
+  const buildSeriesEmbeds = (s: number, e: number): VideoSource[] => [
+    { server: 'VidSrc', url: `https://vidsrc.to/embed/tv/${id}/${s}/${e}`, quality: 'HD' },
+    { server: '2Embed', url: `https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`, quality: 'HD' },
+    { server: 'VidLink', url: `https://vidlink.pro/tv/${id}/${s}/${e}`, quality: 'HD' },
+  ];
 
   useEffect(() => {
     if (!id) return;
@@ -225,16 +231,26 @@ export default function SeriesDetailPage() {
 
               {/* Video Player */}
               <section aria-labelledby="player-title">
-                <h2 id="player-title" className="font-display text-xl font-bold text-white mb-4">Video Player</h2>
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 id="player-title" className="font-display text-xl font-bold text-white">Video Player</h2>
+                  {activeVideo && ['VidSrc','2Embed','VidLink'].includes(activeVideo.server) && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-green-500/20 text-green-400 border border-green-500/30">FILM FULL S{selectedSeason}E{selectedEpisode}</span>
+                  )}
+                  {activeVideo && activeVideo.server === 'YouTube' && (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">TRAILER</span>
+                  )}
+                </div>
                 <div className="video-container rounded-2xl overflow-hidden">
                   {activeVideo ? (
                     <iframe
+                      key={activeVideo.url}
                       src={activeVideo.url}
-                      title={`${series.title} - ${activeVideo.server}`}
+                      title={`${series.title} - ${activeVideo.server} S${selectedSeason}E${selectedEpisode}`}
                       className="w-full h-full"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-dark-900">
@@ -246,27 +262,41 @@ export default function SeriesDetailPage() {
                   )}
                 </div>
 
-                {/* Video Sources */}
-                {series.videos.length > 1 && (
-                  <div className="mt-4">
-                    <p className="text-sm text-dark-400 mb-2">Pilih Server:</p>
+                {/* Episode picker — ganti S/E langsung reload player film */}
+                <div className="mt-4 p-3 rounded-xl bg-dark-900 border border-dark-800">
+                  <p className="text-sm font-semibold text-green-400 mb-2">🎬 Film Full — pilih episode (S{selectedSeason}E{selectedEpisode}):</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs text-dark-400">Season:</span>
+                    {Array.from({ length: Math.min(Math.ceil((series.episodes || 12)/10), 8) }, (_, i) => i+1).map(s => (
+                      <button key={'s'+s} onClick={() => { setSelectedSeason(s); setSelectedEpisode(1); const e=buildSeriesEmbeds(s,1)[0]; if(e) setActiveVideo(e); }}
+                        className={`px-3 py-1 rounded-lg text-sm font-medium ${selectedSeason===s ? 'bg-green-600 text-white' : 'bg-dark-800 text-dark-300 hover:bg-dark-700'}`}>S{s}</button>
+                    ))}
+                    <span className="text-xs text-dark-400 ml-2">Episode:</span>
+                    {Array.from({ length: 12 }, (_, i) => i+1).map(ep => (
+                      <button key={'e'+ep} onClick={() => { setSelectedEpisode(ep); const e=buildSeriesEmbeds(selectedSeason,ep)[0]; if(e) setActiveVideo(e); }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-medium ${selectedEpisode===ep ? 'bg-green-600 text-white' : 'bg-dark-800 text-dark-300 hover:bg-dark-700'}`}>{ep}</button>
+                    ))}
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {buildSeriesEmbeds(selectedSeason, selectedEpisode).map((v, idx) => (
+                      <button key={'srv-'+idx} onClick={() => setActiveVideo(v)}
+                        className={`px-3 py-1.5 rounded-lg text-sm font-medium ${activeVideo?.url===v.url ? 'bg-green-600 text-white' : 'bg-dark-800 text-dark-300 hover:bg-dark-700'}`}>{v.server} {v.quality}</button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Trailer list — separate */}
+                {(() => { const trailers = series.videos.filter(v => !['VidSrc','2Embed','VidLink'].includes(v.server)); return trailers.length>0 ? (
+                  <div className="mt-3">
+                    <p className="text-sm text-dark-400 mb-2">Trailer / Teaser:</p>
                     <div className="flex flex-wrap gap-2">
-                      {series.videos.map((video, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setActiveVideo(video)}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                            activeVideo === video
-                              ? 'bg-primary-600 text-white'
-                              : 'bg-dark-800 text-dark-300 hover:bg-dark-700 hover:text-white'
-                          }`}
-                        >
-                          {video.server} {video.quality}
-                        </button>
+                      {trailers.map((v, idx) => (
+                        <button key={'trl-'+idx} onClick={() => setActiveVideo(v)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium ${activeVideo===v ? 'bg-primary-600 text-white' : 'bg-dark-800 text-dark-300 hover:bg-dark-700'}`}>{v.server} {v.quality}</button>
                       ))}
                     </div>
                   </div>
-                )}
+                ) : null; })()}
               </section>
 
               {/* Cast */}
