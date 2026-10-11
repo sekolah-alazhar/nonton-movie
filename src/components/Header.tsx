@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiX, FiSearch, FiFilm, FiTv, FiTrendingUp, FiStar } from 'react-icons/fi';
+import { FiMenu, FiX, FiSearch, FiFilm, FiTv, FiTrendingUp, FiStar, FiPlay } from 'react-icons/fi';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
