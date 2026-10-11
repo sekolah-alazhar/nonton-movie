@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --scrollbar-track: #0f172a;
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-dark-950 text-dark-50 font-sans antialiased;
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Focus styles */
+:focus-visible {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-dark-950;
+}
+
+/* Animations */
+@layer utilities {
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+/* Glass morphism */
+.glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+}
+
+.glass-dark {
+  @apply bg-dark-900/80 backdrop-blur-xl border border-dark-700/50;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-primary-400 via-red-400 to-orange-400 bg-clip-text text-transparent;
+}
+
+/* Movie card hover effects */
+.movie-card {
+  @apply relative overflow-hidden rounded-xl glass-dark transition-all duration-300;
+}
+
+.movie-card:hover {
+  @apply transform -translate-y-2 shadow-2xl shadow-primary-500/10;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.movie-card img {
+  @apply transition-all duration-500;
+}
+
+.movie-card:hover img {
+  @apply scale-105;
+}
+
+/* Button variants */
+.btn-primary {
+  @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg hover:from-primary-700 hover:to-primary-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-950 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-dark-100 bg-dark-800 rounded-lg hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-dark-500 focus:ring-offset-2 focus:ring-offset-dark-950 transition-all duration-200;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-dark-300 hover:text-white hover:bg-dark-800 rounded-lg transition-all duration-200;
+}
+
+/* Input styles */
+.input-search {
+  @apply w-full px-4 py-3 pl-12 text-dark-50 bg-dark-800/50 border border-dark-700 rounded-xl placeholder-dark-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200;
+}
+
+/* Skeleton loading */
+.skeleton {
+  @apply animate-pulse bg-dark-800 rounded;
+}
+
+.skeleton-text {
+  @apply h-4 bg-dark-800 rounded animate-pulse;
+}
+
+/* Video player */
+.video-container {
+  @apply relative w-full aspect-video bg-black rounded-xl overflow-hidden;
+}
+
+.video-controls {
+  @apply absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 opacity-0 transition-opacity duration-300;
+}
+
+.video-container:hover .video-controls {
+  @apply opacity-100;
+}
+
+/* Navigation */
+.nav-link {
+  @apply relative px-3 py-2 text-sm font-medium text-dark-400 hover:text-white transition-colors duration-200 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary-500 after:transition-all hover:after:w-full;
+}
+
+.nav-link.active {
+  @apply text-white after:w-full;
+}
+
+/* Genre badge */
+.genre-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-dark-700 text-dark-300 hover:bg-dark-600 hover:text-white transition-colors;
+}
+
+/* Rating badge */
+.rating-badge {
+  @apply inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-primary-500/20 text-primary-400 text-sm font-semibold;
+}
