@@ -291,6 +291,25 @@ movieApi.getGenres()                   // List genre (movie + tv)
 
 ---
 
+## 📝 Changelog
+
+### 2026-10-13 — v1.1.0 (prod e03de6f)
+- **UI: Search input diperkecil & dikecilkan** (commit 8eb625f)
+  - Header desktop: search box `w-64` → `w-44` pill (`rounded-full`), padding & ikon lebih ramping
+  - Halaman `/search`: max-width `2xl` → `xl`, tinggi input `py-4 text-lg` → `py-3 text-base`
+  - Menu mobile: pakai varian kecil yang sama
+  - Tambah class `.input-search-sm` di `index.css` (pill rounded-full, reusable)
+
+- **UI: Tingkatkan kontras & keterbacaan mode gelap** (commit e03de6f)
+  - Palet `dark-400/500/600/700/800/900` digeser lebih terang (WCAG AA+ compliant)
+  - Kartu `.glass-dark`: `dark-900/80` → `dark-800/70` (`#182339`), pemisahan dari background page 1.18:1 → 1.29:1
+  - Rasio kontras teks sekunder naik signifikan:
+    - dark-500: 3.75 → 6.51:1
+    - dark-600: 2.36 → 5.59:1
+  - Identitas gelap "Netflix-style" dipertahankan
+
+---
+
 ## 📄 License
 
 MIT License — bebas digunakan, dimodifikasi, dan didistribusikan.
