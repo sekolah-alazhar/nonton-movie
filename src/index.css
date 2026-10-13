@@ -79,7 +79,7 @@ body {
 }
 
 .glass-dark {
-  @apply bg-dark-900/80 backdrop-blur-xl border border-dark-700/50;
+  @apply bg-dark-800/70 backdrop-blur-xl border border-dark-700/50;
 }
 
 /* Gradient text */
