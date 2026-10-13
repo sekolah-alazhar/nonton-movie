@@ -70,8 +70,8 @@ export default function SearchPage() {
         <div className="mx-auto max-w-7xl">
           {/* Search Header */}
           <div className="mb-8">
-            <form onSubmit={(e) => { e.preventDefault(); }} className="relative max-w-2xl">
-              <FiSearch className="absolute left-4 top-1/2 h-6 w-6 -translate-y-1/2 text-dark-500" aria-hidden="true" />
+            <form onSubmit={(e) => { e.preventDefault(); }} className="relative max-w-xl">
+              <FiSearch className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-dark-500" aria-hidden="true" />
               <input
                 type="search"
                 defaultValue={query}
@@ -84,7 +84,7 @@ export default function SearchPage() {
                   }
                 }}
                 placeholder="Cari film, series, aktor..."
-                className="input-search w-full py-4 text-lg pl-14 pr-16"
+                className="input-search-sm w-full py-3 text-base pl-12 pr-14"
                 autoFocus
                 aria-label="Cari film atau series"
               />
@@ -92,10 +92,10 @@ export default function SearchPage() {
                 <button
                   type="button"
                   onClick={clearSearch}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-dark-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 text-dark-400 hover:text-white transition-colors"
                   aria-label="Hapus pencarian"
                 >
-                  <FiX className="h-6 w-6" />
+                  <FiX className="h-4 w-4" />
                 </button>
               )}
             </form>

@@ -69,13 +69,13 @@ export default function Header() {
           <div className="flex items-center gap-3">
             {/* Search Form */}
             <form onSubmit={handleSearch} className="relative hidden lg:block" role="search">
-              <FiSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-dark-500" aria-hidden="true" />
+              <FiSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-dark-500" aria-hidden="true" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari film, series..."
-                className="input-search w-64"
+                className="input-search-sm w-44"
                 aria-label="Cari film atau series"
               />
             </form>
@@ -98,13 +98,13 @@ export default function Header() {
           <div id="mobile-menu" className="md:hidden py-4 border-t border-dark-800 animate-slide-down bg-dark-950/95 backdrop-blur-xl">
             <form onSubmit={handleSearch} className="mb-4 px-4" role="search">
               <div className="relative">
-                <FiSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-dark-500" aria-hidden="true" />
+                <FiSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-dark-500" aria-hidden="true" />
                 <input
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cari film, series..."
-                  className="input-search"
+                  className="input-search-sm"
                   aria-label="Cari film atau series"
                   autoFocus
                 />
